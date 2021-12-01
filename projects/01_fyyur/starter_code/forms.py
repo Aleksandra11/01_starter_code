@@ -1,9 +1,95 @@
 from datetime import datetime
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SelectMultipleField, DateTimeField, BooleanField
+from wtforms.fields.simple import SubmitField
 from wtforms.validators import DataRequired, AnyOf, URL
+from enum import Enum, unique, auto
 
-class ShowForm(Form):
+class Genres(Enum):                                                                                         #Declare an enum class Genres with names and corresponding values of the class members
+    Alternative = auto()
+    Blues = auto()
+    Classical = auto()
+    Country = auto()
+    Electronic = auto()
+    Folk = auto()
+    Funk = auto()
+    Hip_Hop = auto()
+    Heavy_Metal = auto()
+    Instrumental = auto()
+    Jazz = auto()
+    Musical_Theatre = auto()
+    Pop = auto()
+    Punk = auto()
+    R_n_B = auto()
+    Reggae = auto()
+    Rock_n_Roll = auto()
+    Soul = auto()
+    Other = auto()
+
+    @classmethod                                                                                                #Define a function genre_names as a method of the class Genres
+    def genre_names(cls):
+        choices = [(genre.name) for genre in Genres]                         #Restrict valid choices to the list of name-value pairs in Genres
+        return choices
+
+class States(Enum):                                                                                         #Declare an enum class Genres with names and corresponding values of the class members
+    AL = auto()
+    AK = auto()
+    AZ = auto()
+    AR = auto()
+    CA = auto()
+    CO = auto()
+    CT = auto()
+    DE = auto()
+    DC = auto()
+    FL = auto()
+    GA = auto()
+    HI = auto()
+    ID = auto()
+    IL = auto()
+    IN = auto()
+    IA = auto()
+    KS = auto()
+    KY = auto()
+    LA = auto()
+    ME = auto()
+    MT = auto()
+    NE = auto()
+    NV = auto()
+    NH = auto()
+    NJ = auto()
+    NM = auto()
+    NY = auto()
+    NC = auto()
+    ND = auto()
+    OH = auto()
+    OK = auto()
+    OR = auto()
+    MD = auto()
+    MA = auto()
+    MI = auto()
+    MN = auto()
+    MS = auto()
+    MO = auto()
+    PA = auto()
+    RI = auto()
+    SC = auto()
+    SD = auto()
+    TN = auto()
+    TX = auto()
+    UT = auto()
+    VT = auto()
+    VA = auto()
+    WA = auto()
+    WV = auto()
+    WI = auto()
+    WY = auto()
+
+    @classmethod                                                                                                #Define a function genre_names as a method of the class Genres
+    def state_abbr(cls):
+        choices = [(state.name) for state in States]                         #Restrict valid choices to the list of name-value pairs in Genres
+        return choices
+
+class ShowForm(FlaskForm):
     artist_id = StringField(
         'artist_id'
     )
@@ -16,7 +102,7 @@ class ShowForm(Form):
         default= datetime.today()
     )
 
-class VenueForm(Form):
+class VenueForm(FlaskForm):
     name = StringField(
         'name', validators=[DataRequired()]
     )
@@ -25,59 +111,7 @@ class VenueForm(Form):
     )
     state = SelectField(
         'state', validators=[DataRequired()],
-        choices=[
-            ('AL', 'AL'),
-            ('AK', 'AK'),
-            ('AZ', 'AZ'),
-            ('AR', 'AR'),
-            ('CA', 'CA'),
-            ('CO', 'CO'),
-            ('CT', 'CT'),
-            ('DE', 'DE'),
-            ('DC', 'DC'),
-            ('FL', 'FL'),
-            ('GA', 'GA'),
-            ('HI', 'HI'),
-            ('ID', 'ID'),
-            ('IL', 'IL'),
-            ('IN', 'IN'),
-            ('IA', 'IA'),
-            ('KS', 'KS'),
-            ('KY', 'KY'),
-            ('LA', 'LA'),
-            ('ME', 'ME'),
-            ('MT', 'MT'),
-            ('NE', 'NE'),
-            ('NV', 'NV'),
-            ('NH', 'NH'),
-            ('NJ', 'NJ'),
-            ('NM', 'NM'),
-            ('NY', 'NY'),
-            ('NC', 'NC'),
-            ('ND', 'ND'),
-            ('OH', 'OH'),
-            ('OK', 'OK'),
-            ('OR', 'OR'),
-            ('MD', 'MD'),
-            ('MA', 'MA'),
-            ('MI', 'MI'),
-            ('MN', 'MN'),
-            ('MS', 'MS'),
-            ('MO', 'MO'),
-            ('PA', 'PA'),
-            ('RI', 'RI'),
-            ('SC', 'SC'),
-            ('SD', 'SD'),
-            ('TN', 'TN'),
-            ('TX', 'TX'),
-            ('UT', 'UT'),
-            ('VT', 'VT'),
-            ('VA', 'VA'),
-            ('WA', 'WA'),
-            ('WV', 'WV'),
-            ('WI', 'WI'),
-            ('WY', 'WY'),
-        ]
+        choices=States.state_abbr()
     )
     address = StringField(
         'address', validators=[DataRequired()]
@@ -91,44 +125,20 @@ class VenueForm(Form):
     genres = SelectMultipleField(
         # TODO implement enum restriction
         'genres', validators=[DataRequired()],
-        choices=[
-            ('Alternative', 'Alternative'),
-            ('Blues', 'Blues'),
-            ('Classical', 'Classical'),
-            ('Country', 'Country'),
-            ('Electronic', 'Electronic'),
-            ('Folk', 'Folk'),
-            ('Funk', 'Funk'),
-            ('Hip-Hop', 'Hip-Hop'),
-            ('Heavy Metal', 'Heavy Metal'),
-            ('Instrumental', 'Instrumental'),
-            ('Jazz', 'Jazz'),
-            ('Musical Theatre', 'Musical Theatre'),
-            ('Pop', 'Pop'),
-            ('Punk', 'Punk'),
-            ('R&B', 'R&B'),
-            ('Reggae', 'Reggae'),
-            ('Rock n Roll', 'Rock n Roll'),
-            ('Soul', 'Soul'),
-            ('Other', 'Other'),
-        ]
+        choices=Genres.genre_names()
     )
     facebook_link = StringField(
         'facebook_link', validators=[URL()]
     )
-    website_link = StringField(
-        'website_link'
+    website = StringField(
+        'website', validators=[URL()]
     )
-
-    seeking_talent = BooleanField( 'seeking_talent' )
-
     seeking_description = StringField(
         'seeking_description'
     )
+    seeking_talent = BooleanField( 'seeking_talent' )
 
-
-
-class ArtistForm(Form):
+class ArtistForm(FlaskForm):
     name = StringField(
         'name', validators=[DataRequired()]
     )
@@ -137,59 +147,7 @@ class ArtistForm(Form):
     )
     state = SelectField(
         'state', validators=[DataRequired()],
-        choices=[
-            ('AL', 'AL'),
-            ('AK', 'AK'),
-            ('AZ', 'AZ'),
-            ('AR', 'AR'),
-            ('CA', 'CA'),
-            ('CO', 'CO'),
-            ('CT', 'CT'),
-            ('DE', 'DE'),
-            ('DC', 'DC'),
-            ('FL', 'FL'),
-            ('GA', 'GA'),
-            ('HI', 'HI'),
-            ('ID', 'ID'),
-            ('IL', 'IL'),
-            ('IN', 'IN'),
-            ('IA', 'IA'),
-            ('KS', 'KS'),
-            ('KY', 'KY'),
-            ('LA', 'LA'),
-            ('ME', 'ME'),
-            ('MT', 'MT'),
-            ('NE', 'NE'),
-            ('NV', 'NV'),
-            ('NH', 'NH'),
-            ('NJ', 'NJ'),
-            ('NM', 'NM'),
-            ('NY', 'NY'),
-            ('NC', 'NC'),
-            ('ND', 'ND'),
-            ('OH', 'OH'),
-            ('OK', 'OK'),
-            ('OR', 'OR'),
-            ('MD', 'MD'),
-            ('MA', 'MA'),
-            ('MI', 'MI'),
-            ('MN', 'MN'),
-            ('MS', 'MS'),
-            ('MO', 'MO'),
-            ('PA', 'PA'),
-            ('RI', 'RI'),
-            ('SC', 'SC'),
-            ('SD', 'SD'),
-            ('TN', 'TN'),
-            ('TX', 'TX'),
-            ('UT', 'UT'),
-            ('VT', 'VT'),
-            ('VA', 'VA'),
-            ('WA', 'WA'),
-            ('WV', 'WV'),
-            ('WI', 'WI'),
-            ('WY', 'WY'),
-        ]
+        choices=States.state_abbr()
     )
     phone = StringField(
         # TODO implement validation logic for state
@@ -200,40 +158,20 @@ class ArtistForm(Form):
     )
     genres = SelectMultipleField(
         'genres', validators=[DataRequired()],
-        choices=[
-            ('Alternative', 'Alternative'),
-            ('Blues', 'Blues'),
-            ('Classical', 'Classical'),
-            ('Country', 'Country'),
-            ('Electronic', 'Electronic'),
-            ('Folk', 'Folk'),
-            ('Funk', 'Funk'),
-            ('Hip-Hop', 'Hip-Hop'),
-            ('Heavy Metal', 'Heavy Metal'),
-            ('Instrumental', 'Instrumental'),
-            ('Jazz', 'Jazz'),
-            ('Musical Theatre', 'Musical Theatre'),
-            ('Pop', 'Pop'),
-            ('Punk', 'Punk'),
-            ('R&B', 'R&B'),
-            ('Reggae', 'Reggae'),
-            ('Rock n Roll', 'Rock n Roll'),
-            ('Soul', 'Soul'),
-            ('Other', 'Other'),
-        ]
+        choices=Genres.genre_names()
      )
     facebook_link = StringField(
         # TODO implement enum restriction
         'facebook_link', validators=[URL()]
      )
 
-    website_link = StringField(
-        'website_link'
+    website = StringField(
+        'website', validators=[URL()]
      )
 
     seeking_venue = BooleanField( 'seeking_venue' )
 
     seeking_description = StringField(
-            'seeking_description'
+        'seeking_description'
      )
 
