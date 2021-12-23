@@ -215,7 +215,6 @@ def search_artists():
 def show_artist(artist_id):
   # shows the artist page with the given artist_id
   # TODO: replace with real artist data from the artist table, using artist_id
-
   artist = Artist.query.get(artist_id)
   shows = Show.query.filter_by(artist_id=artist_id).all()
   current_time = datetime.now()

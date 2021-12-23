@@ -5,88 +5,88 @@ from wtforms.fields.simple import SubmitField
 from wtforms.validators import DataRequired, AnyOf, URL
 from enum import Enum, unique, auto
 
-class Genres(Enum):                                                                                         #Declare an enum class Genres with names and corresponding values of the class members
-    Alternative = auto()
-    Blues = auto()
-    Classical = auto()
-    Country = auto()
-    Electronic = auto()
-    Folk = auto()
-    Funk = auto()
-    Hip_Hop = auto()
-    Heavy_Metal = auto()
-    Instrumental = auto()
-    Jazz = auto()
-    Musical_Theatre = auto()
-    Pop = auto()
-    Punk = auto()
-    R_n_B = auto()
-    Reggae = auto()
-    Rock_n_Roll = auto()
-    Soul = auto()
-    Other = auto()
+class Genres(Enum):
+    Alternative = 'Alternative'
+    Blues = 'Blues'
+    Classical = 'Classical'
+    Country = 'Country'
+    Electronic = 'Electronic'
+    Folk = 'Folk'
+    Funk = 'Funk'
+    Hip_Hop = 'Hip-Hop'
+    Heavy_Metal = 'Heavy Metal'
+    Instrumental = 'Instrumental'
+    Jazz = 'Jazz'
+    Musical_Theatre = 'Musical Theatre'
+    Pop = 'Pop'
+    Punk = 'Punk'
+    R_n_B = 'R&B'
+    Reggae = 'Reggae'
+    Rock_n_Roll = 'Rock n Roll'
+    Soul = 'Soul'
+    Other = 'Other'
 
-    @classmethod                                                                                                #Define a function genre_names as a method of the class Genres
+    @classmethod
     def genre_names(cls):
-        choices = [(genre.name) for genre in Genres]                         #Restrict valid choices to the list of name-value pairs in Genres
+        choices = [(genre.name, genre.value) for genre in cls]
         return choices
 
-class States(Enum):                                                                                         #Declare an enum class Genres with names and corresponding values of the class members
-    AL = auto()
-    AK = auto()
-    AZ = auto()
-    AR = auto()
-    CA = auto()
-    CO = auto()
-    CT = auto()
-    DE = auto()
-    DC = auto()
-    FL = auto()
-    GA = auto()
-    HI = auto()
-    ID = auto()
-    IL = auto()
-    IN = auto()
-    IA = auto()
-    KS = auto()
-    KY = auto()
-    LA = auto()
-    ME = auto()
-    MT = auto()
-    NE = auto()
-    NV = auto()
-    NH = auto()
-    NJ = auto()
-    NM = auto()
-    NY = auto()
-    NC = auto()
-    ND = auto()
-    OH = auto()
-    OK = auto()
-    OR = auto()
-    MD = auto()
-    MA = auto()
-    MI = auto()
-    MN = auto()
-    MS = auto()
-    MO = auto()
-    PA = auto()
-    RI = auto()
-    SC = auto()
-    SD = auto()
-    TN = auto()
-    TX = auto()
-    UT = auto()
-    VT = auto()
-    VA = auto()
-    WA = auto()
-    WV = auto()
-    WI = auto()
-    WY = auto()
+class States(Enum):
+    AL = 'AL'
+    AK = 'AK'
+    AZ = 'AZ'
+    AR = 'AR'
+    CA = 'CA'
+    CO = 'CO'
+    CT = 'CT'
+    DE = 'DE'
+    DC = 'DC'
+    FL = 'FL'
+    GA = 'GA'
+    HI = 'HI'
+    ID = 'ID'
+    IL = 'IL'
+    IN = 'IN'
+    IA = 'IA'
+    KS = 'KS'
+    KY = 'KY'
+    LA = 'LA'
+    ME = 'ME'
+    MT = 'MT'
+    NE = 'NE'
+    NV = 'NV'
+    NH = 'NH'
+    NJ = 'NJ'
+    NM = 'NM'
+    NY = 'NY'
+    NC = 'NC'
+    ND = 'ND'
+    OH = 'OH'
+    OK = 'OK'
+    OR = 'OR'
+    MD = 'MD'
+    MA = 'MA'
+    MI = 'MI'
+    MN = 'MN'
+    MS = 'MS'
+    MO = 'MO'
+    PA = 'PA'
+    RI = 'RI'
+    SC = 'SC'
+    SD = 'SD'
+    TN = 'TN'
+    TX = 'TX'
+    UT = 'UT'
+    VT = 'VT'
+    VA = 'VA'
+    WA = 'WA'
+    WV = 'WV'
+    WI = 'WI'
+    WY = 'WY'
 
-    @classmethod                                                                                                #Define a function genre_names as a method of the class Genres
+    @classmethod
     def state_abbr(cls):
-        choices = [(state.name) for state in States]                         #Restrict valid choices to the list of name-value pairs in Genres
+        choices = [(state.name, state.value) for state in cls]
         return choices
 
 class ShowForm(FlaskForm):
@@ -159,19 +159,19 @@ class ArtistForm(FlaskForm):
     genres = SelectMultipleField(
         'genres', validators=[DataRequired()],
         choices=Genres.genre_names()
-     )
+    )
     facebook_link = StringField(
         # TODO implement enum restriction
         'facebook_link', validators=[URL()]
-     )
+    )
 
     website = StringField(
         'website', validators=[URL()]
-     )
+    )
 
     seeking_venue = BooleanField( 'seeking_venue' )
 
     seeking_description = StringField(
         'seeking_description'
-     )
+    )
 
